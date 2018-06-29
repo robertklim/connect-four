@@ -4,12 +4,16 @@ class Connect4 {
         this.COLS = 7;
         this.selector = selector;
         this.player = 'red';
+        this.gameOver = false;
         this.createGrid();
         this.setupEventListeners();
     }
 
     createGrid() {
         const $board = $(this.selector);
+        $board.empty();
+        this.gameOver = false;
+        this.player = 'red';
         for (let i = 0; i < this.ROWS; i++) {
             const $row = $('<div>').addClass('row');
             for (let j = 0; j < this.COLS; j++) {
@@ -49,6 +53,7 @@ class Connect4 {
         });
 
         $board.on('click', '.col.empty', function() {
+            if (that.gameOver) return;
             const col = $(this).data('col');
             const $lastEmptyCell = findLastEmptyCell(col);
             $lastEmptyCell.removeClass(`empty next-${that.player}`);
@@ -60,8 +65,9 @@ class Connect4 {
                 $lastEmptyCell.data('col')
             )
             if (winner) {
-                console.log("Game Over!");
+                that.gameOver = true;
                 alert(`Game Over! Player ${that.player} has won!`);
+                $('.col.empty').removeClass('empty');
                 return;
             }
 
@@ -122,6 +128,10 @@ class Connect4 {
         }
 
         return checkVerticals() || checkHorizontals() || checkDiagonalBLtoTR() || checkDiagonalTLtoBR();
+    }
+
+    restart() {
+        this.createGrid();
     }
 
 }
