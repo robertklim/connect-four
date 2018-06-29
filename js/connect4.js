@@ -5,6 +5,7 @@ class Connect4 {
         this.selector = selector;
         this.player = 'red';
         this.gameOver = false;
+        this.onPlayerMove = function() {};
         this.createGrid();
         this.setupEventListeners();
     }
@@ -72,6 +73,7 @@ class Connect4 {
             }
 
             that.player = (that.player === 'red') ? 'green' : 'red';
+            that.onPlayerMove();
             $(this).trigger('mouseenter');
         });
     }
@@ -132,6 +134,7 @@ class Connect4 {
 
     restart() {
         this.createGrid();
+        this.onPlayerMove();
     }
 
 }
