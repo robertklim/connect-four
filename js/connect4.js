@@ -45,5 +45,12 @@ class Connect4 {
         $board.on('mouseleave', '.col', function() {
             $('.col').removeClass('next-red');
         });
+
+        $board.on('click', '.col.empty', function() {
+            const $col = $(this).data('col');
+            const $lastEmptyCell = findLastEmptyCell($col);
+            $lastEmptyCell.removeClass('empty');
+            $lastEmptyCell.addClass('red');
+        });
     }
 }
